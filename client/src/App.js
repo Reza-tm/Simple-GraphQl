@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import gql from 'graphql-tag'
@@ -17,17 +17,16 @@ const MY_MUTATION = gql`
   }
 `
 
-
 export default () => {
 
   const [myString, setMyString] = useState('')
   const [submitME] = useMutation(MY_MUTATION)
 
-  const { error, loading, data, refetch } = useQuery(hello, {
-    onCompleted: () => {
-      setMyString(`${data.hello} -- ${data.anotherQuery}`)
-    }
-  })
+  const { error, loading, data, refetch } = useQuery(hello)
+
+  useEffect(() => {
+    if (data) setMyString(`${data.hello} -- ${data.anotherQuery}`)
+  }, [data])
 
   if (error) return <h1> error </h1>
   if (loading) return <p>loading ...</p>
@@ -37,7 +36,7 @@ export default () => {
     try {
       const { data: { myMutation } } = await submitME()
       
-      if (myMutation === 'success') window.location.assign(window.location.href)
+      if (myMutation === 'success') refetch()
 
     } catch (error) {
       alert('error')
