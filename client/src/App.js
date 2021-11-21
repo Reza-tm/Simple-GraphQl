@@ -26,6 +26,8 @@ export default () => {
 
   useEffect(() => {
     if (data) setMyString(`${data.hello} -- ${data.anotherQuery}`)
+    print('*********')
+    print('data : ', data)
   }, [data])
 
   if (error) return <h1> error </h1>
