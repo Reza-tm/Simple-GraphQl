@@ -22,10 +22,17 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const authLink = setContext(async (_, { headers, ...rest }) => {
 
+  // read from cookies
+  // ut
+  // Bearer Token
+
+  const userToken = null
+
   return {
     ...rest,
     headers: {
-
+      ...headers,
+      authorization: userToken ? `Bearer ${userToken}` : null
     }
   }
 })
