@@ -1,25 +1,26 @@
-import oldResolvers from "./old-resolvers"
-import authorResolver, { getAuthorById } from "./author-resolver"
-import bookResolver, { filterBooksByAuthorID } from "./book-resolver"
-
-
-
+import oldResolvers from "./old-resolvers";
+import authorResolver, { getAuthorById } from "./author-resolver";
+import bookResolver, { filterBooksByAuthorID } from "./book-resolver";
 
 export default {
   Book: {
-    author: (book) => getAuthorById(book.authorId)
+    author: (book) => {
+      const x = getAuthorById(book.authorId);
+      console.log(x);
+      return x;
+    },
   },
   Author: {
-    books: (author) => filterBooksByAuthorID(author._id)
+    books: (author) => filterBooksByAuthorID(author._id),
   },
   Query: {
     ...oldResolvers.Query,
     ...authorResolver.Query,
-    ...bookResolver.Query
+    ...bookResolver.Query,
   },
   Mutation: {
     ...oldResolvers.Mutation,
     ...authorResolver.Mutation,
     ...bookResolver.Mutation,
-  }
-}
+  },
+};
